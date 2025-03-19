@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Item</h1>
+    <ul>
+        {% for item in items %}
+            <li>{{ item.name }} - {{ item.created_at|date:"Y-m-d" }}</li>
+        {% empty %}
+            <li>No items</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
