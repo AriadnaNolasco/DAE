@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a class="brand" href="{% url 'task_list' %}">📝 Task Manager</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'task_list' %}">Tasks</a></li>
+                <li><a href="{% url 'task_create' %}">New Task</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Task Manager - Built with Django</p>
+        </div>
+    </footer>
+</body>
+</html>
