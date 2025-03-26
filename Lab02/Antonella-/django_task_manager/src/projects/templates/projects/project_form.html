@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if project %}Editar{% else %}Crear{% endif %} Proyecto</title>
+</head>
+<body>
+    <h1>{% if project %}Editar{% else %}Crear{% endif %} Proyecto</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Nombre:</label>
+        <input type="text" name="name" value="{{ project.name|default_if_none:'' }}" required><br>
+        <label>Descripción:</label>
+        <textarea name="description">{{ project.description|default_if_none:'' }}</textarea><br>
+        <button type="submit">Guardar</button>
+    </form>
+    <a href="{% url 'project_list' %}">Volver</a>
+</body>
+</html>
