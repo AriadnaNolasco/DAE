@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categorías</title>
+</head>
+<body>
+    <h1>Lista de Categorías</h1>
+    <ul>
+        {% for category in categories %}
+            <li>{{ category.name }} - {{ category.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

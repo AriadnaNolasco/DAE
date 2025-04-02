@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Examen{% endblock %}
+{% block content %}
+<h2>¿Estás seguro de que deseas eliminar el examen "{{ exam.title }}"?</h2>
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'exam_detail' exam.id %}" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+</form>
+{% endblock %}

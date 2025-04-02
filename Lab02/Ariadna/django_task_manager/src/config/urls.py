@@ -21,3 +21,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tasks.urls')),
 ]
+
+from django.contrib import admin
+from django.urls import include, path
+from category_app.views import home  # Importamos la vista de inicio
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('categories/', include('category_app.urls')),
+    path('', home),  # ✅ Esto define que la URL raíz '/' muestre la vista 'home'
+]
