@@ -109,3 +109,46 @@ def exam_play(request, exam_id):
         })
     
     return render(request, 'quiz/exam_play.html', {'exam': exam, 'questions': questions})
+def question_update(request, exam_id, question_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    question = get_object_or_404(Question, id=question_id)
+
+    ChoiceFormSetLimited = inlineformset_factory(
+        Question,
+        Choice,
+        formset=ChoiceFormSet,
+        fields=['text', 'is_correct'],  # Especificar los campos que se mostrarán
+        extra=max(0, 4 - question.choices.count()),  # Ajuste dinámico
+        max_num=4,  # Máximo de 4 opciones
+        can_delete=True
+    )
+
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST, instance=question)
+        formset = ChoiceFormSetLimited(request.POST, instance=question)
+
+        if question_form.is_valid() and formset.is_valid():
+            with transaction.atomic():
+                question_form.save()
+                formset.save()
+
+                # Validar que solo haya una respuesta correcta
+                correct_count = question.choices.filter(is_correct=True).count()
+                if correct_count != 1:
+                    messages.warning(request, 'Debe haber exactamente una respuesta correcta.')
+                else:
+                    messages.success(request, 'Pregunta actualizada correctamente.')
+
+                if 'add_another' in request.POST:
+                    return redirect('question_create', exam_id=exam.id)
+                else:
+                    return redirect('exam_detail', exam_id=exam.id)
+    else:
+        question_form = QuestionForm(instance=question)
+        formset = ChoiceFormSetLimited(instance=question)
+
+    return render(request, 'quiz/question_form.html', {
+        'exam': exam,
+        'question_form': question_form,
+        'formset': formset,
+    })
