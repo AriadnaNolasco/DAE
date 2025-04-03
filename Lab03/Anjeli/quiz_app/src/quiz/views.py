@@ -113,6 +113,7 @@ def question_update(request, exam_id, question_id):
     exam = get_object_or_404(Exam, id=exam_id)
     question = get_object_or_404(Question, id=question_id)
 
+    # Limitar el formset a 4 opciones máximo
     ChoiceFormSetLimited = inlineformset_factory(
         Question,
         Choice,
@@ -151,4 +152,5 @@ def question_update(request, exam_id, question_id):
         'exam': exam,
         'question_form': question_form,
         'formset': formset,
+        'espaciado': 'p-3 mb-4 rounded shadow-sm',  # 👈 esto lo usaremos en el template
     })
