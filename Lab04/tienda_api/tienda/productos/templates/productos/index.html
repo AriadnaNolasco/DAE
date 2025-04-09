@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{% static 'productos/estilos.css' %}">
+</head>
+<body>
+
+    <h1>Productos disponibles</h1>
+    <a href="/buscar/">Buscar producto por ID</a>
+    <ul>
+        {% for producto in productos %}
+        <li>
+            <strong>{{ producto.title }}</strong><br>
+            Precio: S/. {{ producto.price }}<br>
+            Categoría: {{ producto.category }}<br>
+            <img src="{{ producto.image }}" width="100">
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
