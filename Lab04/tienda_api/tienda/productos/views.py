@@ -8,10 +8,11 @@ def inicio(request):
     return render(request, 'productos/index.html', {'productos': productos})
 
 def buscar_producto(request):
-    resultado = None
+    resultados = []
     if request.method == 'POST':
-        id_producto = request.POST.get('id_producto')
-        respuesta = requests.get(f'https://fakestoreapi.com/products/{id_producto}')
+        nombre_buscado = request.POST.get('nombre_producto', '').lower()
+        respuesta = requests.get('https://fakestoreapi.com/products')
         if respuesta.status_code == 200:
-            resultado = respuesta.json()
-    return render(request, 'productos/buscar.html', {'resultado': resultado})
+            todos = respuesta.json()
+            resultados = [p for p in todos if nombre_buscado in p['title'].lower()]
+    return render(request, 'productos/buscar.html', {'resultados': resultados})

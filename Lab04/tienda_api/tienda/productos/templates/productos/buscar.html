@@ -3,26 +3,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscar Producto</title>
+    <title>Buscar Producto por Nombre</title>
     <link rel="stylesheet" href="{% static 'productos/estilos.css' %}">
 </head>
 <body>
-
-    <h1>Buscar Producto por ID</h1>
+    <h1>Buscar Producto por Nombre</h1>
     <form method="POST">
         {% csrf_token %}
-        <input type="number" name="id_producto" placeholder="ID del producto">
+        <input type="text" name="nombre_producto" placeholder="Escribe parte del nombre...">
         <button type="submit">Buscar</button>
     </form>
 
-    {% if resultado %}
-        <h2>Resultado:</h2>
-        <p><strong>{{ resultado.title }}</strong></p>
-        <p>Precio: S/. {{ resultado.price }}</p>
-        <p>{{ resultado.description }}</p>
-        <img src="{{ resultado.image }}" width="150">
+    {% if resultados %}
+        <h2>Resultados:</h2>
+        <ul>
+        {% for producto in resultados %}
+            <li>
+                <strong>{{ producto.title }}</strong><br>
+                Precio: S/. {{ producto.price }}<br>
+                Categoría: {{ producto.category }}<br>
+                <img src="{{ producto.image }}" width="100">
+            </li>
+        {% endfor %}
+        </ul>
+    {% elif resultados is not none %}
+        <p>No se encontraron productos.</p>
     {% endif %}
 
-    <br><a href="/">← Volver al listado</a>
+    <a href="/">← Volver al listado</a>
 </body>
 </html>
